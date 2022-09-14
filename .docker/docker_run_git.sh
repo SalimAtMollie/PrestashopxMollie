@@ -73,6 +73,10 @@ if [ ! -f ./config/settings.inc.php ]; then
 
         if [ $? -ne 0 ]; then
             echo "${RED}[!] Error: PrestaShop installation failed.${NC}"
+        else
+            echo "\n* ${YELLOW}[!] Installing Mollie plugin...${NC}"
+            git clone https://github.com/mollie/PrestaShop1.7 mollie
+            mv /tmp/mollie /var/www/html/modules
         fi
     fi
 else
