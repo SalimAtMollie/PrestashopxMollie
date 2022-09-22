@@ -1,13 +1,5 @@
 #!/bin/sh
 
-if [ "${DISABLE_MAKE}" != "1" ]; then
-  echo "\n* [!] Running composer ...";
-  runuser -g www-data -u www-data -- /usr/local/bin/composer install --no-interaction
-
-  echo "\n* [!] Build assets ...";
-  runuser -g www-data -u www-data -- /usr/bin/make assets
-fi
-
 if [ "$DB_SERVER" = "<to be defined>" -a $PS_INSTALL_AUTO = 1 ]; then
     echo >&2 "[!] Error: You requested automatic PrestaShop installation but MySQL server address is not provided "
     echo >&2 "           You need to specify DB_SERVER in order to proceed"
@@ -37,6 +29,13 @@ fi
 
 if [ ! -f ./config/settings.inc.php ]; then
     if [ $PS_INSTALL_AUTO = 1 ]; then
+
+
+        echo "\n* [!] Running composer ...";
+        runuser -g www-data -u www-data -- /usr/local/bin/composer install --no-interaction
+
+        echo "\n* [!] Build assets ...";
+        runuser -g www-data -u www-data -- /usr/bin/make assets
 
         echo "\n* [!] Installing PrestaShop, this may take a while ...";
 
