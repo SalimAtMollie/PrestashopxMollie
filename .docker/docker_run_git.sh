@@ -84,6 +84,7 @@ if [ ! -f ./config/settings.inc.php ]; then
             unzip  -q ./mollie.zip
             mv ./mollie ./modules
         fi
+        rm -rf ./install
     fi
 else
     echo "\n* [!] PrestaShop Core already installed...";
