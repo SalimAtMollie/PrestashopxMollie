@@ -1,5 +1,6 @@
-ARG PHP_VERSION
-FROM php:$PHP_VERSION
+#ARG PHP_VERSION
+#FROM php:$PHP_VERSION
+FROM prestashop/prestashop:1.7
 
 # To run files with the same group as your primary user
 
