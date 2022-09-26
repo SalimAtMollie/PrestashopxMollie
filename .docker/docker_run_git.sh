@@ -23,12 +23,6 @@ fi
 set -e
 
 if [ ! -f ./config/settings.inc.php ]; then
-
-    # Avoid any previous PrestaShop installation lock
-    #cd /var/www/html
-    #rm -rf *
-    # the above remove install.lock and all previously installed files in the volume
-
     # Get the PrestaShop sources and unzip
     echo "\n* [!] Download PrestaShop ${PS_VERSION}"
     wget -c -q -O prestashop_${PS_VERSION}.zip "https://github.com/PrestaShop/PrestaShop/releases/download/${PS_VERSION}/prestashop_${PS_VERSION}.zip"
@@ -36,9 +30,11 @@ if [ ! -f ./config/settings.inc.php ]; then
     unzip -q -o prestashop_${PS_VERSION}.zip -d prestashop_${PS_VERSION}
     if [ ! -d ./prestashop_${PS_VERSION}/prestashop ]; then
         unzip -q -o prestashop_${PS_VERSION}/prestashop.zip -d .
-    else
+    else #it is 1.6 presta
         mv -v ./prestashop_${PS_VERSION}/prestashop/* ./
         rm -rf ./prestashop_${PS_VERSION}
+        #Fix PHP Fatal error:  Cannot use result of built-in function in write context in /var/www/html/tools/tar/Archive_Tar.php on line 693
+        sed -ie 's/$v_att_list = & func_get_args();/$v_att_list = func_get_args();/' ./tools/tar/Archive_Tar.php
     fi
     rm -rf *.zip prestashop_${PS_VERSION}/
     mkdir -p var/cache/prod
@@ -51,12 +47,6 @@ if [ ! -f ./config/settings.inc.php ]; then
     fi
 
     if [ $PS_INSTALL_AUTO = 1 ]; then
-
-        #echo "\n* [!] Running composer ...";
-        #runuser -g www-data -u www-data -- /usr/local/bin/composer install --no-interaction
-
-        #echo "\n* [!] Build assets ...";
-        #runuser -g www-data -u www-data -- /usr/bin/make assets
 
         echo "\n* [!] Installing PrestaShop, this may take a while ...";
 
