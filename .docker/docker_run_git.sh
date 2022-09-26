@@ -22,20 +22,41 @@ fi
 # From now, stop at error
 set -e
 
-if [ $PS_DEV_MODE -ne 1 ]; then
-  echo "\n* [!] Disabling DEV mode ...";
-  sed -ie "s/define('_PS_MODE_DEV_', true);/define('_PS_MODE_DEV_',\ false);/g" /var/www/html/config/defines.inc.php
-fi
-
 if [ ! -f ./config/settings.inc.php ]; then
+
+    # Avoid any previous PrestaShop installation lock
+    #cd /var/www/html
+    #rm -rf *
+    # the above remove install.lock and all previously installed files in the volume
+
+    # Get the PrestaShop sources and unzip
+    echo "\n* [!] Download PrestaShop ${PS_VERSION}"
+    wget -c -q -O prestashop_${PS_VERSION}.zip "https://github.com/PrestaShop/PrestaShop/releases/download/${PS_VERSION}/prestashop_${PS_VERSION}.zip"
+    echo "\n* [!] Unzipping PrestaShop ${PS_VERSION}"
+    unzip -q -o prestashop_${PS_VERSION}.zip -d prestashop_${PS_VERSION}
+    if [ ! -d ./prestashop_${PS_VERSION}/prestashop ]; then
+        unzip -q -o prestashop_${PS_VERSION}/prestashop.zip -d .
+    else
+        mv -v ./prestashop_${PS_VERSION}/prestashop/* ./
+        rm -rf ./prestashop_${PS_VERSION}
+    fi
+    rm -rf *.zip prestashop_${PS_VERSION}/
+    mkdir -p var/cache/prod
+    chown -R www-data /var/www/html
+    echo "\n* [!] files are ready"
+
+    if [ $PS_DEV_MODE -ne 1 ]; then
+        echo "\n* [!] Disabling DEV mode ...";
+        sed -ie "s/define('_PS_MODE_DEV_', true);/define('_PS_MODE_DEV_',\ false);/g" /var/www/html/config/defines.inc.php
+    fi
+
     if [ $PS_INSTALL_AUTO = 1 ]; then
 
+        #echo "\n* [!] Running composer ...";
+        #runuser -g www-data -u www-data -- /usr/local/bin/composer install --no-interaction
 
-        echo "\n* [!] Running composer ...";
-        runuser -g www-data -u www-data -- /usr/local/bin/composer install --no-interaction
-
-        echo "\n* [!] Build assets ...";
-        runuser -g www-data -u www-data -- /usr/bin/make assets
+        #echo "\n* [!] Build assets ...";
+        #runuser -g www-data -u www-data -- /usr/bin/make assets
 
         echo "\n* [!] Installing PrestaShop, this may take a while ...";
 
@@ -69,8 +90,8 @@ if [ ! -f ./config/settings.inc.php ]; then
             echo "[!] Error: PrestaShop installation failed."
         else
             echo "\n* [!] Downloading Mollie plugin..."
-            wget --no-check-certificate --content-disposition https://github.com/mollie/PrestaShop1.7/releases/download/V5.2.1/mollie.zip            
-            unzip ./mollie.zip
+            wget -q --no-check-certificate --content-disposition https://github.com/mollie/PrestaShop1.7/releases/download/V5.2.1/mollie.zip            
+            unzip  -q ./mollie.zip
             mv ./mollie ./modules
         fi
     fi
@@ -87,9 +108,9 @@ fi
 echo "############################################################################"
 echo "##### Installation Complete! Please activate Mollie in Extensions Page #####"
 echo "############################################################################"
-echo "[!] Website Url 		 : http://localhost:8001"
-echo "[!] Website Admin Url : http://localhost:8001/admin-dev"
+echo "[!] Website Url 		 : http://${PS_DOMAIN}"
+echo "[!] Website Admin Url : http://${PS_DOMAIN}/${PS_FOLDER_ADMIN}"
 echo "[!] Admin Username    : demo@prestashop.com"
-echo "[!] Admin Password    : MollieWithPrestaShop"
+echo "[!] Admin Password    : ${ADMIN_PASSWD}"
 
 exec apache2-foreground

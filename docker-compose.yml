@@ -7,7 +7,7 @@ volumes:
 
 services:
   mysql:
-    image: mysql:5
+    image: mysql:5.6
     ports:
       - "3306"
     volumes:
@@ -16,25 +16,24 @@ services:
       MYSQL_ROOT_PASSWORD: prestashop
       MYSQL_DATABASE: prestashop
     restart: always
+    networks:
+      - traefik-public
     
-  prestashop-git:
+  prestashop:
     build:
       dockerfile: .docker/Dockerfile
-      context: .
-      args:
-        - USER_ID=${USER_ID:-1000}
-        - GROUP_ID=${GROUP_ID:-1000}
     environment:
+      PS_VERSION: ${PS_VERSION:-1.7.8.7}
       PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
       DB_PASSWD: ${DB_PASSWD:-prestashop}
       DB_NAME: ${DB_NAME:-prestashop}
       DB_SERVER: ${DB_SERVER:-mysql}
       DB_PREFIX: ${DB_PREFIX:-ps_}
       PS_DOMAIN: ${PS_DOMAIN:-localhost:8001}
-      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL:-install-dev}
-      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN:-admin-dev}
-      PS_COUNTRY: ${PS_COUNTRY:-fr}
-      PS_LANGUAGE: ${PS_LANGUAGE:-fr}
+      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL:-install}
+      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN:-admin}
+      PS_COUNTRY: ${PS_COUNTRY:-en}
+      PS_LANGUAGE: ${PS_LANGUAGE:-en}
       PS_DEV_MODE: ${PS_DEV_MODE:-0}
       ADMIN_PASSWD: ${ADMIN_PASSWD:-MollieWithPrestaShop}
     command: ["/tmp/wait-for-it.sh", "--timeout=60", "--strict", "mysql:3306", "--", "/tmp/docker_run_git.sh"]
@@ -42,3 +41,9 @@ services:
       - "8001:80"
     volumes:
       - ./:/var/www/html:delegated
+    networks:
+      - traefik-public
+
+networks:
+    traefik-public:
+        name: traefik-public
