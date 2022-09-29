@@ -23,9 +23,9 @@ services:
     build:
       dockerfile: .docker/Dockerfile
       args:
-        - PHP_VERSION=7.1-apache
+        - PS_VERSION_DF=1.7 #1.6 or 1.7 (Provide full build number below)
     environment:
-      PS_VERSION: ${PS_VERSION:-1.7.8.7}
+      PS_VERSION: ${PS_VERSION:-1.7.8.7} #Full PS version, found at https://github.com/PrestaShop/PrestaShop/tags (Leave empty for latest version)
       PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
       DB_PASSWD: ${DB_PASSWD:-prestashop}
       DB_NAME: ${DB_NAME:-prestashop}
