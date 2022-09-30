@@ -23,22 +23,22 @@ services:
     build:
       dockerfile: .docker/Dockerfile
       args:
-        - PS_VERSION_DF=1.7 #For Prestashop 1.6: "1.6-7.0-apache". For Prestashop 1.7: "1.7" (Provide full build number below)
+        - PS_VERSION_DF=${PS_VERSION_DF} #Used in dockerfile
     environment:
-      PS_VERSION: ${PS_VERSION:-1.7.8.7} #Full PS version, found at https://github.com/PrestaShop/PrestaShop/tags (Leave empty for latest version)
-      MOLLIE_VERSION: ${MOLLIE_VERSION:-V5.2.1} #Full Mollie plugin version, found at https://github.com/mollie/PrestaShop1.7/tags (MAKE SURE THAT THE MOLLIE PLUGIN IS SUPPORTED WITH THE PS VERSION YOU USE!)
-      PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
-      DB_PASSWD: ${DB_PASSWD:-prestashop}
-      DB_NAME: ${DB_NAME:-prestashop}
-      DB_SERVER: ${DB_SERVER:-mysql}
-      DB_PREFIX: ${DB_PREFIX:-ps_}
-      PS_DOMAIN: ${PS_DOMAIN:-localhost:8001}
-      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL:-install}
-      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN:-admin}
-      PS_COUNTRY: ${PS_COUNTRY:-en}
-      PS_LANGUAGE: ${PS_LANGUAGE:-en}
-      PS_DEV_MODE: ${PS_DEV_MODE:-0}
-      ADMIN_PASSWD: ${ADMIN_PASSWD:-MollieWithPrestaShop}
+      PS_VERSION: ${PS_VERSION} 
+      MOLLIE_VERSION: ${MOLLIE_VERSION} 
+      DB_PASSWD: ${DB_PASSWD}
+      DB_NAME: ${DB_NAME}
+      DB_SERVER: ${DB_SERVER}
+      DB_PREFIX: ${DB_PREFIX}
+      PS_INSTALL_AUTO: ${PS_INSTALL_AUTO}
+      PS_DOMAIN: ${PS_DOMAIN}
+      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL}
+      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN}
+      PS_COUNTRY: ${PS_COUNTRY}
+      PS_LANGUAGE: ${PS_LANGUAGE}
+      PS_DEV_MODE: ${PS_DEV_MODE}
+      ADMIN_PASSWD: ${ADMIN_PASSWD}
     command: ["/tmp/wait-for-it.sh", "--timeout=60", "--strict", "mysql:3306", "--", "/tmp/docker_run_git.sh"]
     ports:
       - "8001:80"
