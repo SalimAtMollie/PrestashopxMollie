@@ -80,8 +80,7 @@ if [ ! -f ./config/settings.inc.php ]; then
             echo "[!] Error: PrestaShop installation failed."
         else
             echo "\n* [!] Downloading Mollie plugin..."
-            Short=$(echo ${PS_VERSION} | cut -c1-3)
-            wget -q --no-check-certificate --content-disposition "https://github.com/mollie/PrestaShop${Short}/releases/download/V${MOLLIE_VERSION}/mollie.zip"           
+            wget -q --no-check-certificate --content-disposition "https://github.com/mollie/PrestaShop1.7/releases/download/V${MOLLIE_VERSION}/mollie.zip"           
             unzip  -q ./mollie.zip
             mv ./mollie ./modules
         fi
