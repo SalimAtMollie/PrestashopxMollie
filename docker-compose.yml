@@ -23,10 +23,10 @@ services:
     build:
       dockerfile: .docker/Dockerfile
       args:
-        - PS_VERSION_DF=1.7 #For Prestashop 1.6: "1.6-7.0-apache" or 1.7 (Provide full build number below)
+        - PS_VERSION_DF=1.7 #For Prestashop 1.6: "1.6-7.0-apache". For Prestashop 1.7: "1.7" (Provide full build number below)
     environment:
       PS_VERSION: ${PS_VERSION:-1.7.8.7} #Full PS version, found at https://github.com/PrestaShop/PrestaShop/tags (Leave empty for latest version)
-      MOLLIE_VERSION: ${MOLLIE_VERSION:-5.2.1} #Full Mollie plugin version, found at https://github.com/mollie/PrestaShop1.7/tags for 1.7, and https://github.com/mollie/PrestaShop1.6/tags for 1.6
+      MOLLIE_VERSION: ${MOLLIE_VERSION:-V5.2.1} #Full Mollie plugin version, found at https://github.com/mollie/PrestaShop1.7/tags (MAKE SURE THAT THE MOLLIE PLUGIN IS SUPPORTED WITH THE PS VERSION YOU USE!)
       PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
       DB_PASSWD: ${DB_PASSWD:-prestashop}
       DB_NAME: ${DB_NAME:-prestashop}
