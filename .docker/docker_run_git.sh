@@ -16,7 +16,7 @@ elif [ "$DB_SERVER" != "<to be defined>" -a $PS_INSTALL_AUTO = 1 ]; then
             sleep 5
         fi
     done
-        echo "\n* [!] DB server $DB_SERVER is available, let's continue !"
+    echo "\n* [!] DB server $DB_SERVER is available, let's continue !"
 fi
 
 # From now, stop at error
@@ -80,7 +80,8 @@ if [ ! -f ./config/settings.inc.php ]; then
             echo "[!] Error: PrestaShop installation failed."
         else
             echo "\n* [!] Downloading Mollie plugin..."
-            wget -q --no-check-certificate --content-disposition "https://github.com/mollie/PrestaShop${PS_VERSION:0:3}/releases/download/${MOLLIE_VERSION}/mollie.zip"           
+            Short=$(echo ${PS_VERSION} | cut -c1-3)
+            wget -q --no-check-certificate --content-disposition "https://github.com/mollie/PrestaShop${Short}/releases/download/${MOLLIE_VERSION}/mollie.zip"           
             unzip  -q ./mollie.zip
             mv ./mollie ./modules
         fi
