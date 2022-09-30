@@ -25,7 +25,7 @@ services:
       args:
         - PS_VERSION_DF=1.7 #1.6 or 1.7 (Provide full build number below)
     environment:
-      MOLLIE_VERSION: ${MOLLIE_VERSION:-v5.2.1} #Full Mollie plugin version, found at https://github.com/mollie/PrestaShop1.7/tags for 1.7, and https://github.com/mollie/PrestaShop1.6/tags for 1.6
+      MOLLIE_VERSION: ${MOLLIE_VERSION:-5.2.1} #Full Mollie plugin version, found at https://github.com/mollie/PrestaShop1.7/tags for 1.7, and https://github.com/mollie/PrestaShop1.6/tags for 1.6
       PS_VERSION: ${PS_VERSION:-1.7.8.7} #Full PS version, found at https://github.com/PrestaShop/PrestaShop/tags (Leave empty for latest version)
       PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
       DB_PASSWD: ${DB_PASSWD:-prestashop}
