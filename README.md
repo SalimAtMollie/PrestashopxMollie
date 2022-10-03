@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="mollie Oxid logo" src="./PrestashopxMollie.png" width="224px"/><br/>
+  <img alt="mollie Prestashop logo" src="./PrestashopxMollie.png" width="488px"/><br/>
   Docker container with Prestashop (including Mollie plugin)
 </h1>
 <p align="center">Create a new test-ready Prestashop webshop with <b>database</b> (MySql) and <b>frontend</b> (PHP) by running a few CLI commands.
