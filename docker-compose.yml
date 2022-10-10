@@ -21,6 +21,7 @@ services:
     
   prestashop:
     build:
+      context: .
       dockerfile: .docker/Dockerfile
       args:
         - PS_VERSION_DF=${PS_VERSION_DF} #Used in dockerfile
