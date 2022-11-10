@@ -40,7 +40,7 @@ The default links and credentials can be found here:
 
 **[`Admin Page`](http://localhost:8001/admin)**: 
   - http://localhost:8001/admin
-  - Email: `prestashop@demo.com`
+  - Email: `demo@prestashop.com`
   - Password: `MollieWithPrestaShop`
 
 ## 🔓 Compatibility with different versions
